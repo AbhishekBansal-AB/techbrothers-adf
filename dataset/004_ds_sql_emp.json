@@ -1,0 +1,20 @@
+{
+	"name": "004_ds_sql_emp",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "techbrothersitdb",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "004"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "techbros",
+			"table": "004_Emp"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
