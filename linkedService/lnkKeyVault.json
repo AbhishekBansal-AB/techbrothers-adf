@@ -1,0 +1,11 @@
+{
+	"name": "lnkKeyVault",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://techbrothers-keyvault.vault.azure.net/"
+		}
+	}
+}

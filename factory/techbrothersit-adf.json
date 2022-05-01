@@ -1,0 +1,9 @@
+{
+	"name": "techbrothersit-adf",
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8c8f4a75-f527-41ab-87cd-61c3ddaaeb5a",
+		"tenantId": "16e21b23-13da-4ba5-a538-eed6803f53cf"
+	}
+}
