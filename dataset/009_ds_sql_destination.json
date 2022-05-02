@@ -1,0 +1,19 @@
+{
+	"name": "009_ds_sql_destination",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "techbrothersitdb",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "009"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "techbros",
+			"table": "009_Emp"
+		}
+	}
+}
