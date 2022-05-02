@@ -1,0 +1,7 @@
+{
+	"name": "mgPrivateEndPoint",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/f8b296e1-7c62-474b-9317-cee7e5eb21dd/resourceGroups/techbrothersit-rg/providers/Microsoft.Sql/servers/techbrothers-srvr",
+		"groupId": "sqlServer"
+	}
+}
