@@ -1444,7 +1444,7 @@
 			"properties": {
 				"description": "this trigger for every minutes",
 				"annotations": [],
-				"runtimeState": "Started",
+				"runtimeState": "Stopped",
 				"pipelines": [
 					{
 						"pipelineReference": {
