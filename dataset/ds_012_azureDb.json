@@ -1,0 +1,27 @@
+{
+	"name": "ds_012_azureDb",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "techbrothersitdb",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "012"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "techbros",
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
+		}
+	}
+}
