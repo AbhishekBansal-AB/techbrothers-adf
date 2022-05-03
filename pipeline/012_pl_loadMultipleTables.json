@@ -93,7 +93,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_inputFiles_012",
+									"referenceName": "ds_012_inputFiles",
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
@@ -105,11 +105,11 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "ds_azureDb_012",
+									"referenceName": "ds_012_azureDb",
 									"type": "DatasetReference",
 									"parameters": {
 										"tablename": {
-											"value": "@item().name",
+											"value": "@concat('012_', substring(item().name, 0, lastIndexof(item().name,'_')))",
 											"type": "Expression"
 										}
 									}
