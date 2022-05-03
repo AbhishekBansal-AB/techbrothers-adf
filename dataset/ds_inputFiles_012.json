@@ -1,5 +1,5 @@
 {
-	"name": "012_ds_inputFiles",
+	"name": "ds_inputFiles_012",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "blb_tbsource",

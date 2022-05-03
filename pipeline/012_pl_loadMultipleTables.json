@@ -24,6 +24,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -92,7 +93,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "012_ds_inputFiles",
+									"referenceName": "ds_inputFiles_012",
 									"type": "DatasetReference",
 									"parameters": {
 										"fileName": {
@@ -104,7 +105,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "012_ds_azureDb",
+									"referenceName": "ds_azureDb_012",
 									"type": "DatasetReference",
 									"parameters": {
 										"tablename": {

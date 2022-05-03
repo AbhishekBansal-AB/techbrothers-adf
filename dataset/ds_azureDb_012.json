@@ -1,5 +1,5 @@
 {
-	"name": "012_ds_azureDb",
+	"name": "ds_azureDb_012",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "techbrothersitdb",
