@@ -1,0 +1,24 @@
+{
+	"name": "012_ds_azureDb",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "techbrothersitdb",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tablename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "techbros",
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
+		}
+	}
+}
