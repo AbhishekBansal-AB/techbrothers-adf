@@ -10,6 +10,12 @@
 					"referenceName": "021_pl_CopyEmpFile",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "021_pl_CopyEmpAddressFile",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "ScheduleTrigger",
