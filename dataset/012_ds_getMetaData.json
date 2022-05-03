@@ -5,6 +5,9 @@
 			"referenceName": "blb_tbsource",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "012"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
