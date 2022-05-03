@@ -1,0 +1,20 @@
+{
+	"name": "015_ds_blob_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blb_tbsource",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "015"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "tbsource"
+			}
+		}
+	}
+}

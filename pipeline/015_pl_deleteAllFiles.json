@@ -1,0 +1,44 @@
+{
+	"name": "015_pl_deleteAllFiles",
+	"properties": {
+		"activities": [
+			{
+				"name": "Delete All Files",
+				"type": "Delete",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "015_ds_blob_source",
+						"type": "DatasetReference"
+					},
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "lnkblobsourcelogs",
+							"type": "LinkedServiceReference"
+						},
+						"path": "tblogs"
+					},
+					"enableLogging": true,
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"wildcardFileName": "*.*",
+						"enablePartitionDiscovery": false
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "015"
+		},
+		"annotations": []
+	}
+}
