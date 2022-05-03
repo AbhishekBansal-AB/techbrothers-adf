@@ -1,0 +1,31 @@
+{
+	"name": "Schedule_TBIT_1Minute",
+	"properties": {
+		"description": "this trigger for every minutes",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "021_pl_CopyEmpFile",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "021_pl_CopyEmpAddressFile",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2022-05-03T23:59:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
