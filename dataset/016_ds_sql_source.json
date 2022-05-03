@@ -1,0 +1,16 @@
+{
+	"name": "016_ds_sql_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "techbrothersitdb",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "techbros",
+			"table": "016_DeleteMap"
+		}
+	}
+}
