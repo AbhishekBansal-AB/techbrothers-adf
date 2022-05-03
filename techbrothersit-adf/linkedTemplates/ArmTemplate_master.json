@@ -15,6 +15,10 @@
 			"type": "string",
 			"defaultValue": "https://techbrothers-keyvault.vault.azure.net/"
 		},
+		"lnkblobsourcelogs_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "tbstorage"
+		},
 		"techbrothersitdb_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
 			"defaultValue": "tbsqlconnection"
@@ -52,12 +56,35 @@
 					"blb_tbsource_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('blb_tbsource_properties_typeProperties_connectionString_secretName')]"
 					},
+					"lnkblobsourcelogs_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('lnkblobsourcelogs_properties_typeProperties_connectionString_secretName')]"
+					},
 					"techbrothersitdb_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('techbrothersitdb_properties_typeProperties_connectionString_secretName')]"
 					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "techbrothersit-adf_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'techbrothersit-adf_ArmTemplate_0')]"
+			]
 		}
 	]
 }

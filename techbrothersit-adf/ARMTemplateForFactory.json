@@ -15,6 +15,10 @@
 			"type": "string",
 			"defaultValue": "https://techbrothers-keyvault.vault.azure.net/"
 		},
+		"lnkblobsourcelogs_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "tbstorage"
+		},
 		"techbrothersitdb_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
 			"defaultValue": "tbsqlconnection"
@@ -555,6 +559,61 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/015_pl_deleteAllFiles')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Delete All Files",
+						"type": "Delete",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "015_ds_blob_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"logStorageSettings": {
+								"linkedServiceName": {
+									"referenceName": "lnkblobsourcelogs",
+									"type": "LinkedServiceReference"
+								},
+								"path": "tblogs"
+							},
+							"enableLogging": true,
+							"storeSettings": {
+								"type": "AzureBlobStorageReadSettings",
+								"recursive": true,
+								"wildcardFileName": "*.*",
+								"enablePartitionDiscovery": false
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"folder": {
+					"name": "015"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/015_ds_blob_source')]",
+				"[concat(variables('factoryId'), '/linkedServices/lnkblobsourcelogs')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/004_ds_blb_emp')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -781,6 +840,31 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/015_ds_blob_source')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blb_tbsource",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "015"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "tbsource"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blb_tbsource')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_012_azureDb')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -885,6 +969,28 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/lnkblobsourcelogs')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "lnkKeyVault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('lnkblobsourcelogs_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/lnkKeyVault')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/techbrothersitdb')]",

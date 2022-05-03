@@ -11,6 +11,9 @@
 		"lnkKeyVault_properties_typeProperties_baseUrl": {
 			"value": "https://techbrothers-keyvault.vault.azure.net/"
 		},
+		"lnkblobsourcelogs_properties_typeProperties_connectionString_secretName": {
+			"value": "tbstorage"
+		},
 		"techbrothersitdb_properties_typeProperties_connectionString_secretName": {
 			"value": "tbsqlconnection"
 		}
