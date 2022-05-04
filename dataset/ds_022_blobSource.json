@@ -1,0 +1,32 @@
+{
+	"name": "ds_022_blobSource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blb_tbsource",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileName": {
+				"type": "string"
+			},
+			"folderPath": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				},
+				"container": {
+					"value": "@dataset().folderPath",
+					"type": "Expression"
+				}
+			}
+		}
+	}
+}
