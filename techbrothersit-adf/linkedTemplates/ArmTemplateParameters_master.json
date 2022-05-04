@@ -17,6 +17,15 @@
 		"techbrothersitdb_properties_typeProperties_connectionString_secretName": {
 			"value": "tbsqlconnection"
 		},
+		"storageEvent_trigger_properties_022_pl_storageEventTrigger_parameters_fName": {
+			"value": "@triggerBody().fileName"
+		},
+		"storageEvent_trigger_properties_022_pl_storageEventTrigger_parameters_fPath": {
+			"value": "@triggerBody().folderPath"
+		},
+		"storageEvent_trigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/f8b296e1-7c62-474b-9317-cee7e5eb21dd/resourceGroups/techbrothersit-rg/providers/Microsoft.Storage/storageAccounts/techbrothersitstorage"
+		},
 		"containerUri": {
 			"value": ""
 		},

@@ -23,6 +23,18 @@
 			"type": "string",
 			"defaultValue": "tbsqlconnection"
 		},
+		"storageEvent_trigger_properties_022_pl_storageEventTrigger_parameters_fName": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"storageEvent_trigger_properties_022_pl_storageEventTrigger_parameters_fPath": {
+			"type": "string",
+			"defaultValue": "@triggerBody().folderPath"
+		},
+		"storageEvent_trigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/f8b296e1-7c62-474b-9317-cee7e5eb21dd/resourceGroups/techbrothersit-rg/providers/Microsoft.Storage/storageAccounts/techbrothersitstorage"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -79,6 +91,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"storageEvent_trigger_properties_022_pl_storageEventTrigger_parameters_fName": {
+						"value": "[parameters('storageEvent_trigger_properties_022_pl_storageEventTrigger_parameters_fName')]"
+					},
+					"storageEvent_trigger_properties_022_pl_storageEventTrigger_parameters_fPath": {
+						"value": "[parameters('storageEvent_trigger_properties_022_pl_storageEventTrigger_parameters_fPath')]"
+					},
+					"storageEvent_trigger_properties_typeProperties_scope": {
+						"value": "[parameters('storageEvent_trigger_properties_typeProperties_scope')]"
 					}
 				}
 			},
