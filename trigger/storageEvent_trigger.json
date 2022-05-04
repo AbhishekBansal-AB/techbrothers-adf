@@ -1,0 +1,29 @@
+{
+	"name": "storageEvent_trigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "022_pl_storageEventTrigger",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"fName": "@triggerBody().fileName",
+					"fPath": "@triggerBody().folderPath"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/tbsource/blobs/Emp",
+			"blobPathEndsWith": ".txt",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/f8b296e1-7c62-474b-9317-cee7e5eb21dd/resourceGroups/techbrothersit-rg/providers/Microsoft.Storage/storageAccounts/techbrothersitstorage",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

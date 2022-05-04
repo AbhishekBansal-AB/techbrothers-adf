@@ -25,6 +25,12 @@
 							"type": "BinaryReadSettings"
 						}
 					},
+					"sink": {
+						"type": "BinarySink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						}
+					},
 					"enableStaging": false
 				},
 				"inputs": [
@@ -35,8 +41,18 @@
 							"fileName": {
 								"value": "@pipeline().parameters.fName",
 								"type": "Expression"
+							},
+							"folderPath": {
+								"value": "@pipeline().parameters.fPath",
+								"type": "Expression"
 							}
 						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_022_blobDestination",
+						"type": "DatasetReference"
 					}
 				]
 			}
@@ -45,7 +61,7 @@
 			"fName": {
 				"type": "string"
 			},
-			"cName": {
+			"fPath": {
 				"type": "string"
 			}
 		},
