@@ -1,0 +1,19 @@
+{
+	"name": "ds_023_sqlDestination",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "techbrothersitdb",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "023"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "techbros",
+			"table": "023_CustomerDest"
+		}
+	}
+}
