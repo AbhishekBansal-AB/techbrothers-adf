@@ -35,11 +35,11 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/f8b296e1-7c62-474b-9317-cee7e5eb21dd/resourceGroups/techbrothersit-rg/providers/Microsoft.Storage/storageAccounts/techbrothersitstorage"
 		},
-		"tumblingWindow_trigger_properties_pipeline_parameters_edate": {
+		"tumbling_window_trigger_properties_pipeline_parameters_edate": {
 			"type": "string",
 			"defaultValue": "@trigger().outputs.windowStartTime"
 		},
-		"tumblingWindow_trigger_properties_pipeline_parameters_sdate": {
+		"tumbling_window_trigger_properties_pipeline_parameters_sdate": {
 			"type": "string",
 			"defaultValue": "@trigger().outputs.windowEndTime"
 		},
@@ -109,11 +109,11 @@
 					"storage_Event_trigger_properties_typeProperties_scope": {
 						"value": "[parameters('storage_Event_trigger_properties_typeProperties_scope')]"
 					},
-					"tumblingWindow_trigger_properties_pipeline_parameters_edate": {
-						"value": "[parameters('tumblingWindow_trigger_properties_pipeline_parameters_edate')]"
+					"tumbling_window_trigger_properties_pipeline_parameters_edate": {
+						"value": "[parameters('tumbling_window_trigger_properties_pipeline_parameters_edate')]"
 					},
-					"tumblingWindow_trigger_properties_pipeline_parameters_sdate": {
-						"value": "[parameters('tumblingWindow_trigger_properties_pipeline_parameters_sdate')]"
+					"tumbling_window_trigger_properties_pipeline_parameters_sdate": {
+						"value": "[parameters('tumbling_window_trigger_properties_pipeline_parameters_sdate')]"
 					}
 				}
 			},
