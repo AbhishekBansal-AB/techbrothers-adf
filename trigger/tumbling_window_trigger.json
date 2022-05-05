@@ -1,5 +1,5 @@
 {
-	"name": "tumblingWindow_trigger",
+	"name": "tumbling_window_trigger",
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
@@ -18,7 +18,7 @@
 			"frequency": "Hour",
 			"interval": 12,
 			"startTime": "2022-05-01T00:00:00Z",
-			"endTime": "2022-05-08T23:59:00Z",
+			"endTime": "2022-05-07T23:59:00Z",
 			"delay": "00:00:00",
 			"maxConcurrency": 50,
 			"retryPolicy": {
