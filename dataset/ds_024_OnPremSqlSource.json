@@ -1,0 +1,12 @@
+{
+	"name": "ds_024_OnPremSqlSource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "lnkOnPremSql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
