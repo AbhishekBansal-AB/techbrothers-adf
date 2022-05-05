@@ -26,11 +26,11 @@
 		"storage_Event_trigger_properties_typeProperties_scope": {
 			"value": "/subscriptions/f8b296e1-7c62-474b-9317-cee7e5eb21dd/resourceGroups/techbrothersit-rg/providers/Microsoft.Storage/storageAccounts/techbrothersitstorage"
 		},
-		"tumbling_window_trigger_properties_pipeline_parameters_edate": {
-			"value": "@trigger().outputs.windowStartTime"
-		},
-		"tumbling_window_trigger_properties_pipeline_parameters_sdate": {
+		"tumblingwindowtrigger_properties_pipeline_parameters_edate": {
 			"value": "@trigger().outputs.windowEndTime"
+		},
+		"tumblingwindowtrigger_properties_pipeline_parameters_sdate": {
+			"value": "@trigger().outputs.windowStartTime"
 		}
 	}
 }
