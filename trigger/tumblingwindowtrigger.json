@@ -1,5 +1,5 @@
 {
-	"name": "tumbling_window_trigger",
+	"name": "tumblingwindowtrigger",
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
@@ -9,8 +9,8 @@
 				"type": "PipelineReference"
 			},
 			"parameters": {
-				"edate": "@trigger().outputs.windowStartTime",
-				"sdate": "@trigger().outputs.windowEndTime"
+				"edate": "@trigger().outputs.windowEndTime",
+				"sdate": "@trigger().outputs.windowStartTime"
 			}
 		},
 		"type": "TumblingWindowTrigger",
