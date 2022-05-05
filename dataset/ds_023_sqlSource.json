@@ -5,6 +5,9 @@
 			"referenceName": "techbrothersitdb",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "023"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": []
