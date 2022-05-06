@@ -221,6 +221,9 @@
 					"referenceName": "lnkOnPremSql",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "024"
+				},
 				"annotations": [],
 				"type": "SqlServerTable",
 				"schema": [],
@@ -236,6 +239,9 @@
 				"linkedServiceName": {
 					"referenceName": "blb_tbsource",
 					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "024"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
