@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "techbrothersit-adf"
 		},
+		"lnkOnPremSql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'lnkOnPremSql'"
+		},
 		"lnkKeyVault_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://techbrothers-keyvault.vault.azure.net/"
@@ -38,6 +42,16 @@
 				"typeProperties": {
 					"baseUrl": "[parameters('lnkKeyVault_properties_typeProperties_baseUrl')]"
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SelfHostedIR')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
 			},
 			"dependsOn": []
 		},
@@ -112,6 +126,25 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/lnkKeyVault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/lnkOnPremSql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"connectionString": "[parameters('lnkOnPremSql_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "SelfHostedIR",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SelfHostedIR')]"
 			]
 		},
 		{
@@ -468,77 +501,6 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": "EmpAddress_20220503_021.txt",
-						"container": "tbsource"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/blb_tbsource')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_012_azureDb')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "techbrothersitdb",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"tablename": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "012"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "techbros",
-					"table": {
-						"value": "@dataset().tablename",
-						"type": "Expression"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/techbrothersitdb')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_012_inputFiles')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "blb_tbsource",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"fileName": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "012"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().fileName",
-							"type": "Expression"
-						},
 						"container": "tbsource"
 					},
 					"columnDelimiter": ",",

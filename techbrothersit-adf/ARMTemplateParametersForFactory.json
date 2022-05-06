@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "techbrothersit-adf"
 		},
+		"lnkOnPremSql_connectionString": {
+			"value": ""
+		},
 		"blb_tbsource_properties_typeProperties_connectionString_secretName": {
 			"value": "tbstorage"
 		},

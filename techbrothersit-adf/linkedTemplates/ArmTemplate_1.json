@@ -6,32 +6,79 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "techbrothersit-adf"
-		},
-		"storage_Event_trigger_properties_022_pl_storageEventTrigger_parameters_fName": {
-			"type": "string",
-			"defaultValue": "@triggerBody().fileName"
-		},
-		"storage_Event_trigger_properties_022_pl_storageEventTrigger_parameters_fPath": {
-			"type": "string",
-			"defaultValue": "@triggerBody().folderPath"
-		},
-		"storage_Event_trigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/f8b296e1-7c62-474b-9317-cee7e5eb21dd/resourceGroups/techbrothersit-rg/providers/Microsoft.Storage/storageAccounts/techbrothersitstorage"
-		},
-		"tumblingwindowtrigger_properties_pipeline_parameters_edate": {
-			"type": "string",
-			"defaultValue": "@trigger().outputs.windowEndTime"
-		},
-		"tumblingwindowtrigger_properties_pipeline_parameters_sdate": {
-			"type": "string",
-			"defaultValue": "@trigger().outputs.windowStartTime"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_012_azureDb')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "techbrothersitdb",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"tablename": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "012"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "techbros",
+					"table": {
+						"value": "@dataset().tablename",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_012_inputFiles')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blb_tbsource",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"fileName": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "012"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().fileName",
+							"type": "Expression"
+						},
+						"container": "tbsource"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ds_016_blob_source')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -162,6 +209,48 @@
 				"type": "AzureSqlTable",
 				"schema": [],
 				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_024_OnPremSqlSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "lnkOnPremSql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_024_blob_destination')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blb_tbsource",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Person.csv",
+						"container": "tbdestination"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
 			},
 			"dependsOn": []
 		},
@@ -677,7 +766,10 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_012_inputFiles')]",
+				"[concat(variables('factoryId'), '/datasets/ds_012_azureDb')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/015_pl_deleteAllFiles')]",
@@ -1226,111 +1318,79 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Schedule_TBIT_1Minute')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
+			"name": "[concat(parameters('factoryName'), '/024_pl_copyOnPremSql')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "this trigger for every minutes",
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
+				"activities": [
 					{
-						"pipelineReference": {
-							"referenceName": "021_pl_CopyEmpFile",
-							"type": "PipelineReference"
+						"name": "Copy data from OnPrem Sql",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
 						},
-						"parameters": {}
-					},
-					{
-						"pipelineReference": {
-							"referenceName": "021_pl_CopyEmpAddressFile",
-							"type": "PipelineReference"
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select FirstName, MiddleName, LastName, Demographics from [Person].[Person]",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
 						},
-						"parameters": {}
+						"inputs": [
+							{
+								"referenceName": "ds_024_OnPremSqlSource",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_024_blob_destination",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Minute",
-						"interval": 1,
-						"startTime": "2022-05-03T23:59:00",
-						"timeZone": "India Standard Time"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/021_pl_CopyEmpFile')]",
-				"[concat(variables('factoryId'), '/pipelines/021_pl_CopyEmpAddressFile')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/storage_Event_trigger')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "022_pl_storageEventTrigger",
-							"type": "PipelineReference"
-						},
-						"parameters": {
-							"fName": "[parameters('storage_Event_trigger_properties_022_pl_storageEventTrigger_parameters_fName')]",
-							"fPath": "[parameters('storage_Event_trigger_properties_022_pl_storageEventTrigger_parameters_fPath')]"
-						}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/tbsource/blobs/Emp",
-					"blobPathEndsWith": ".txt",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('storage_Event_trigger_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/022_pl_storageEventTrigger')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tumblingwindowtrigger')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipeline": {
-					"pipelineReference": {
-						"referenceName": "023_pl_tumblingWindowTrigger",
-						"type": "PipelineReference"
-					},
-					"parameters": {
-						"edate": "[parameters('tumblingwindowtrigger_properties_pipeline_parameters_edate')]",
-						"sdate": "[parameters('tumblingwindowtrigger_properties_pipeline_parameters_sdate')]"
-					}
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
 				},
-				"type": "TumblingWindowTrigger",
-				"typeProperties": {
-					"frequency": "Hour",
-					"interval": 12,
-					"startTime": "2022-05-01T00:00:00Z",
-					"endTime": "2022-05-07T23:59:00Z",
-					"delay": "00:00:00",
-					"maxConcurrency": 50,
-					"retryPolicy": {
-						"intervalInSeconds": 30
-					},
-					"dependsOn": []
-				}
+				"folder": {
+					"name": "024"
+				},
+				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/023_pl_tumblingWindowTrigger')]"
+				"[concat(variables('factoryId'), '/datasets/ds_024_OnPremSqlSource')]",
+				"[concat(variables('factoryId'), '/datasets/ds_024_blob_destination')]"
 			]
 		}
 	]

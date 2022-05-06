@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "techbrothersit-adf"
 		},
+		"lnkOnPremSql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'lnkOnPremSql'"
+		},
 		"blb_tbsource_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
 			"defaultValue": "tbstorage"
@@ -70,6 +74,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"lnkOnPremSql_connectionString": {
+						"value": "[parameters('lnkOnPremSql_connectionString')]"
+					},
 					"lnkKeyVault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('lnkKeyVault_properties_typeProperties_baseUrl')]"
 					},
@@ -99,6 +106,26 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'techbrothersit-adf_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "techbrothersit-adf_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
 					},
 					"storage_Event_trigger_properties_022_pl_storageEventTrigger_parameters_fName": {
 						"value": "[parameters('storage_Event_trigger_properties_022_pl_storageEventTrigger_parameters_fName')]"
@@ -118,7 +145,7 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'techbrothersit-adf_ArmTemplate_0')]"
+				"[resourceId('Microsoft.Resources/deployments', 'techbrothersit-adf_ArmTemplate_1')]"
 			]
 		}
 	]
