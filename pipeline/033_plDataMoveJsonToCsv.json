@@ -1,5 +1,5 @@
 {
-	"name": "032_plDataMoveJsonToCsv",
+	"name": "033_plDataMoveJsonToCsv",
 	"properties": {
 		"activities": [
 			{
@@ -43,7 +43,7 @@
 						"mappings": [
 							{
 								"source": {
-									"path": "$['people'][0]['firstName']"
+									"path": "$['firstName']"
 								},
 								"sink": {
 									"name": "firstName"
@@ -51,7 +51,7 @@
 							},
 							{
 								"source": {
-									"path": "$['people'][0]['lastName']"
+									"path": "$['lastName']"
 								},
 								"sink": {
 									"name": "lastName"
@@ -59,7 +59,7 @@
 							},
 							{
 								"source": {
-									"path": "$['people'][0]['gender']"
+									"path": "$['gender']"
 								},
 								"sink": {
 									"name": "gender"
@@ -67,7 +67,7 @@
 							},
 							{
 								"source": {
-									"path": "$['people'][0]['age']"
+									"path": "$['age']"
 								},
 								"sink": {
 									"name": "age"
@@ -75,31 +75,32 @@
 							},
 							{
 								"source": {
-									"path": "$['people'][0]['number']"
+									"path": "$['number']"
 								},
 								"sink": {
 									"name": "number"
 								}
 							}
-						]
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_032_Json_Storage",
+						"referenceName": "ds_033_Json_Storage",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ds_032_Json_Csv",
+						"referenceName": "ds_033_Json_Csv",
 						"type": "DatasetReference"
 					}
 				]
 			}
 		],
 		"folder": {
-			"name": "032"
+			"name": "033"
 		},
 		"annotations": []
 	}
