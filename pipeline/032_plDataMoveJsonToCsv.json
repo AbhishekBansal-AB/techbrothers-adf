@@ -30,7 +30,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "ds_032_JsonStorage",
+						"referenceName": "ds_032_Json_Storage",
 						"type": "DatasetReference"
 					}
 				]

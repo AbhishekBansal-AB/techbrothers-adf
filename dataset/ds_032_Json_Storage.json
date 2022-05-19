@@ -1,5 +1,5 @@
 {
-	"name": "ds_032_JsonStorage",
+	"name": "ds_032_Json_Storage",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "blb_tbsource",
