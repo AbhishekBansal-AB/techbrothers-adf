@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "022"
+			"name": "Dataset/022"
 		},
 		"annotations": [],
 		"type": "Binary",

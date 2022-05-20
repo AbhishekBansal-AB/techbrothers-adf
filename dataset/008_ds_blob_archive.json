@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "008"
+			"name": "Dataset/008"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
