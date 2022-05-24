@@ -1916,58 +1916,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_024_OnPremSqlSource')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "lnkOnPremSql",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "024"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/lnkOnPremSql')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_024_blob_destination')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "blb_tbsource",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "024"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "Person.csv",
-						"container": "tbdestination"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/blb_tbsource')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/ds_033_Json_Csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
