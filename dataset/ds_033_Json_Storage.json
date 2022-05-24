@@ -1,0 +1,49 @@
+{
+	"name": "ds_033_Json_Storage",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blb_tbsource",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Dataset/033"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Customer_032.json",
+				"container": "tbsource"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"people": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"firstName": {
+								"type": "string"
+							},
+							"lastName": {
+								"type": "string"
+							},
+							"gender": {
+								"type": "string"
+							},
+							"age": {
+								"type": "integer"
+							},
+							"number": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

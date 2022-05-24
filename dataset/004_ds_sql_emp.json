@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "004"
+			"name": "Dataset/004"
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",

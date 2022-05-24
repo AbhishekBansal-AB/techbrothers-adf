@@ -1,9 +1,9 @@
 {
-	"name": "021_pl_CopyEmpFile",
+	"name": "033_plDataMoveJsonToCsv",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy Emp File",
+				"name": "Copy data from Json file to Csv file",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -16,14 +16,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "JsonSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true,
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "JsonReadSettings"
 						}
 					},
 					"sink": {
@@ -40,29 +40,67 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
+						"mappings": [
+							{
+								"source": {
+									"path": "$['firstName']"
+								},
+								"sink": {
+									"name": "firstName"
+								}
+							},
+							{
+								"source": {
+									"path": "$['lastName']"
+								},
+								"sink": {
+									"name": "lastName"
+								}
+							},
+							{
+								"source": {
+									"path": "$['gender']"
+								},
+								"sink": {
+									"name": "gender"
+								}
+							},
+							{
+								"source": {
+									"path": "$['age']"
+								},
+								"sink": {
+									"name": "age"
+								}
+							},
+							{
+								"source": {
+									"path": "$['number']"
+								},
+								"sink": {
+									"name": "number"
+								}
+							}
+						],
+						"collectionReference": ""
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "021_ds_blob_source",
+						"referenceName": "ds_033_Json_Storage",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "021_ds_blob_destination",
+						"referenceName": "ds_033_Json_Csv",
 						"type": "DatasetReference"
 					}
 				]
 			}
 		],
 		"folder": {
-			"name": "Pipeline/021"
+			"name": "Pipeline/033"
 		},
 		"annotations": []
 	}

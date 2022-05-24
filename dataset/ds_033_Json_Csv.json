@@ -1,28 +1,20 @@
 {
-	"name": "ds_012_inputFiles",
+	"name": "ds_033_Json_Csv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "blb_tbsource",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"fileName": {
-				"type": "string"
-			}
-		},
 		"folder": {
-			"name": "Dataset/012"
+			"name": "Dataset/033"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().fileName",
-					"type": "Expression"
-				},
-				"container": "tbsource"
+				"fileName": "CustomerJson.csv",
+				"container": "tbdestination"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
