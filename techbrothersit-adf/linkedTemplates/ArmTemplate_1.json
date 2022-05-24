@@ -13,6 +13,35 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/021_ds_blob_source2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blb_tbsource",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Dataset/021"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "EmpAddress_20220503_021.txt",
+						"container": "tbsource"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_012_azureDb')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -27,7 +56,7 @@
 					}
 				},
 				"folder": {
-					"name": "012"
+					"name": "Dataset/012"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -57,7 +86,7 @@
 					}
 				},
 				"folder": {
-					"name": "012"
+					"name": "Dataset/012"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -94,7 +123,7 @@
 					}
 				},
 				"folder": {
-					"name": "016"
+					"name": "Dataset/016"
 				},
 				"annotations": [],
 				"type": "Binary",
@@ -120,7 +149,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "022"
+					"name": "Dataset/022"
 				},
 				"annotations": [],
 				"type": "Binary",
@@ -151,7 +180,7 @@
 					}
 				},
 				"folder": {
-					"name": "022"
+					"name": "Dataset/022"
 				},
 				"annotations": [],
 				"type": "Binary",
@@ -181,7 +210,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "023"
+					"name": "Dataset/023"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -203,7 +232,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "023"
+					"name": "Dataset/023"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -257,6 +286,87 @@
 					"quoteChar": "\""
 				},
 				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_033_Json_Csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blb_tbsource",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Dataset/033"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "CustomerJson.csv",
+						"container": "tbdestination"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_033_Json_Storage')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blb_tbsource",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Dataset/033"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Customer_032.json",
+						"container": "tbsource"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"people": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"firstName": {
+										"type": "string"
+									},
+									"lastName": {
+										"type": "string"
+									},
+									"gender": {
+										"type": "string"
+									},
+									"age": {
+										"type": "integer"
+									},
+									"number": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 			"dependsOn": []
 		},
@@ -326,7 +436,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "004"
+					"name": "Pipeline/004"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-05-01T17:44:54Z"
@@ -447,7 +557,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "008"
+					"name": "Pipeline/008"
 				},
 				"annotations": []
 			},
@@ -628,7 +738,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "009"
+					"name": "Pipeline/009"
 				},
 				"annotations": []
 			},
@@ -768,7 +878,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "012"
+					"name": "Pipeline/012"
 				},
 				"annotations": []
 			},
@@ -823,7 +933,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "015"
+					"name": "Pipeline/015"
 				},
 				"annotations": []
 			},
@@ -931,7 +1041,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "016"
+					"name": "Pipeline/016"
 				},
 				"annotations": []
 			},
@@ -1011,11 +1121,13 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "021"
+					"name": "Pipeline/021"
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/021_ds_blob_source2')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/021_pl_CopyEmpFile')]",
@@ -1089,315 +1201,11 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "021"
+					"name": "Pipeline/021"
 				},
 				"annotations": []
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/022_pl_storageEventTrigger')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data from input to output folder",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "BinarySource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true
-								},
-								"formatSettings": {
-									"type": "BinaryReadSettings"
-								}
-							},
-							"sink": {
-								"type": "BinarySink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_022_blobSource",
-								"type": "DatasetReference",
-								"parameters": {
-									"fileName": {
-										"value": "@pipeline().parameters.fName",
-										"type": "Expression"
-									},
-									"folderPath": {
-										"value": "@pipeline().parameters.fPath",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_022_blobDestination",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"fName": {
-						"type": "string"
-					},
-					"fPath": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "022"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_022_blobSource')]",
-				"[concat(variables('factoryId'), '/datasets/ds_022_blobDestination')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/023_pl_tumblingWindowTrigger')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data from source to destination",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderStoredProcedureName": "[[techbros].[023_prc_loadCustomer]",
-								"storedProcedureParameters": {
-									"endDate": {
-										"type": "String",
-										"value": {
-											"value": "@pipeline().parameters.edate",
-											"type": "Expression"
-										}
-									},
-									"startDate": {
-										"type": "String",
-										"value": {
-											"value": "@pipeline().parameters.sdate",
-											"type": "Expression"
-										}
-									}
-								},
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "CustomerId",
-											"type": "Int32",
-											"physicalType": "int"
-										},
-										"sink": {
-											"name": "CustomerId",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "FName",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "FName",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "LName",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "LName",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "SaleDate",
-											"type": "String",
-											"physicalType": "varchar"
-										},
-										"sink": {
-											"name": "SaleDate",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_023_sqlSource",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_023_sqlDestination",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"parameters": {
-					"edate": {
-						"type": "string"
-					},
-					"sdate": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "023"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_023_sqlSource')]",
-				"[concat(variables('factoryId'), '/datasets/ds_023_sqlDestination')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/024_pl_copyOnPremSql')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data from OnPrem Sql",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderQuery": "select FirstName, MiddleName, LastName, Demographics from [Person].[Person]",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_024_OnPremSqlSource",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_024_blob_destination",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"folder": {
-					"name": "024"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_024_OnPremSqlSource')]",
-				"[concat(variables('factoryId'), '/datasets/ds_024_blob_destination')]"
-			]
 		}
 	]
 }

@@ -118,7 +118,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "004"
+					"name": "Pipeline/004"
 				},
 				"annotations": [],
 				"lastPublishTime": "2022-05-01T17:44:54Z"
@@ -242,7 +242,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "008"
+					"name": "Pipeline/008"
 				},
 				"annotations": []
 			},
@@ -427,7 +427,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "009"
+					"name": "Pipeline/009"
 				},
 				"annotations": []
 			},
@@ -572,7 +572,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "012"
+					"name": "Pipeline/012"
 				},
 				"annotations": []
 			},
@@ -628,7 +628,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "015"
+					"name": "Pipeline/015"
 				},
 				"annotations": []
 			},
@@ -739,7 +739,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "016"
+					"name": "Pipeline/016"
 				},
 				"annotations": []
 			},
@@ -821,7 +821,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "021"
+					"name": "Pipeline/021"
 				},
 				"annotations": []
 			},
@@ -902,7 +902,7 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "021"
+					"name": "Pipeline/021"
 				},
 				"annotations": []
 			},
@@ -986,7 +986,7 @@
 					}
 				},
 				"folder": {
-					"name": "022"
+					"name": "Pipeline/022"
 				},
 				"annotations": []
 			},
@@ -1130,7 +1130,7 @@
 					}
 				},
 				"folder": {
-					"name": "023"
+					"name": "Pipeline/023"
 				},
 				"annotations": []
 			},
@@ -1140,13 +1140,13 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/024_pl_copyOnPremSql')]",
+			"name": "[concat(parameters('factoryName'), '/033_plDataMoveJsonToCsv')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy data from OnPrem Sql",
+						"name": "Copy data from Json file to Csv file",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -1159,10 +1159,15 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderQuery": "select FirstName, MiddleName, LastName, Demographics from [Person].[Person]",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
 							},
 							"sink": {
 								"type": "DelimitedTextSink",
@@ -1178,23 +1183,61 @@
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
+								"mappings": [
+									{
+										"source": {
+											"path": "$['firstName']"
+										},
+										"sink": {
+											"name": "firstName"
+										}
+									},
+									{
+										"source": {
+											"path": "$['lastName']"
+										},
+										"sink": {
+											"name": "lastName"
+										}
+									},
+									{
+										"source": {
+											"path": "$['gender']"
+										},
+										"sink": {
+											"name": "gender"
+										}
+									},
+									{
+										"source": {
+											"path": "$['age']"
+										},
+										"sink": {
+											"name": "age"
+										}
+									},
+									{
+										"source": {
+											"path": "$['number']"
+										},
+										"sink": {
+											"name": "number"
+										}
+									}
+								],
+								"collectionReference": ""
 							}
 						},
 						"inputs": [
 							{
-								"referenceName": "ds_024_OnPremSqlSource",
+								"referenceName": "ds_033_Json_Storage",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "ds_024_blob_destination",
+								"referenceName": "ds_033_Json_Csv",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1206,14 +1249,90 @@
 					"cancelAfter": {}
 				},
 				"folder": {
-					"name": "024"
+					"name": "Pipeline/033"
 				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_024_OnPremSqlSource')]",
-				"[concat(variables('factoryId'), '/datasets/ds_024_blob_destination')]"
+				"[concat(variables('factoryId'), '/datasets/ds_033_Json_Storage')]",
+				"[concat(variables('factoryId'), '/datasets/ds_033_Json_Csv')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_035_switchActivity')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Switch Activity",
+						"type": "Switch",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"on": {
+								"value": "@pipeline().parameters.pfile",
+								"type": "Expression"
+							},
+							"cases": [
+								{
+									"value": "customer",
+									"activities": [
+										{
+											"name": "Customer wait activity",
+											"type": "Wait",
+											"dependsOn": [],
+											"userProperties": [],
+											"typeProperties": {
+												"waitTimeInSeconds": 1
+											}
+										}
+									]
+								},
+								{
+									"value": "product",
+									"activities": [
+										{
+											"name": "product wait activity",
+											"type": "Wait",
+											"dependsOn": [],
+											"userProperties": [],
+											"typeProperties": {
+												"waitTimeInSeconds": 1
+											}
+										}
+									]
+								}
+							],
+							"defaultActivities": [
+								{
+									"name": "Default - Delete File",
+									"type": "Wait",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"waitTimeInSeconds": 1
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"pfile": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Pipeline/035"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/004_ds_blb_emp')]",
@@ -1225,7 +1344,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "004"
+					"name": "Dataset/004"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -1256,7 +1375,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "004"
+					"name": "Dataset/004"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -1280,7 +1399,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "008"
+					"name": "Dataset/008"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -1309,7 +1428,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "008"
+					"name": "Dataset/008"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -1338,7 +1457,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "009"
+					"name": "Dataset/009"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -1368,7 +1487,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "009"
+					"name": "Dataset/009"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -1398,7 +1517,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "009"
+					"name": "Dataset/009"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -1422,7 +1541,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "012"
+					"name": "Dataset/012"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -1451,7 +1570,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "015"
+					"name": "Dataset/015"
 				},
 				"annotations": [],
 				"type": "Binary",
@@ -1476,7 +1595,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "016"
+					"name": "Dataset/016"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -1500,7 +1619,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "021"
+					"name": "Dataset/021"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -1530,7 +1649,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "021"
+					"name": "Dataset/021"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -1561,7 +1680,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "021"
+					"name": "Dataset/021"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -1597,7 +1716,7 @@
 					}
 				},
 				"folder": {
-					"name": "012"
+					"name": "Dataset/012"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -1629,7 +1748,7 @@
 					}
 				},
 				"folder": {
-					"name": "012"
+					"name": "Dataset/012"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -1668,7 +1787,7 @@
 					}
 				},
 				"folder": {
-					"name": "016"
+					"name": "Dataset/016"
 				},
 				"annotations": [],
 				"type": "Binary",
@@ -1696,7 +1815,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "022"
+					"name": "Dataset/022"
 				},
 				"annotations": [],
 				"type": "Binary",
@@ -1729,7 +1848,7 @@
 					}
 				},
 				"folder": {
-					"name": "022"
+					"name": "Dataset/022"
 				},
 				"annotations": [],
 				"type": "Binary",
@@ -1761,7 +1880,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "023"
+					"name": "Dataset/023"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -1785,7 +1904,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "023"
+					"name": "Dataset/023"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -1843,6 +1962,91 @@
 					"quoteChar": "\""
 				},
 				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blb_tbsource')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_033_Json_Csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blb_tbsource",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Dataset/033"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "CustomerJson.csv",
+						"container": "tbdestination"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/blb_tbsource')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_033_Json_Storage')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "blb_tbsource",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Dataset/033"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Customer_032.json",
+						"container": "tbsource"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"people": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"firstName": {
+										"type": "string"
+									},
+									"lastName": {
+										"type": "string"
+									},
+									"gender": {
+										"type": "string"
+									},
+									"age": {
+										"type": "integer"
+									},
+									"number": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/blb_tbsource')]"

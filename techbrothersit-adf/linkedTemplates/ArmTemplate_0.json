@@ -33,6 +33,82 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/pl_035_switchActivity')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Switch Activity",
+						"type": "Switch",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"on": {
+								"value": "@pipeline().parameters.pfile",
+								"type": "Expression"
+							},
+							"cases": [
+								{
+									"value": "customer",
+									"activities": [
+										{
+											"name": "Customer wait activity",
+											"type": "Wait",
+											"dependsOn": [],
+											"userProperties": [],
+											"typeProperties": {
+												"waitTimeInSeconds": 1
+											}
+										}
+									]
+								},
+								{
+									"value": "product",
+									"activities": [
+										{
+											"name": "product wait activity",
+											"type": "Wait",
+											"dependsOn": [],
+											"userProperties": [],
+											"typeProperties": {
+												"waitTimeInSeconds": 1
+											}
+										}
+									]
+								}
+							],
+							"defaultActivities": [
+								{
+									"name": "Default - Delete File",
+									"type": "Wait",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"waitTimeInSeconds": 1
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"parameters": {
+					"pfile": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Pipeline/035"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/lnkKeyVault')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -157,7 +233,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "004"
+					"name": "Dataset/004"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -188,7 +264,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "004"
+					"name": "Dataset/004"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -212,7 +288,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "008"
+					"name": "Dataset/008"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -241,7 +317,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "008"
+					"name": "Dataset/008"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -270,7 +346,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "009"
+					"name": "Dataset/009"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -300,7 +376,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "009"
+					"name": "Dataset/009"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -330,7 +406,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "009"
+					"name": "Dataset/009"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -354,7 +430,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "012"
+					"name": "Dataset/012"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -383,7 +459,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "015"
+					"name": "Dataset/015"
 				},
 				"annotations": [],
 				"type": "Binary",
@@ -408,7 +484,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "016"
+					"name": "Dataset/016"
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
@@ -432,7 +508,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "021"
+					"name": "Dataset/021"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -462,7 +538,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "021"
+					"name": "Dataset/021"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -470,37 +546,6 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": "Emp_20220503_021.txt",
-						"container": "tbsource"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/blb_tbsource')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/021_ds_blob_source2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "blb_tbsource",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "021"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "EmpAddress_20220503_021.txt",
 						"container": "tbsource"
 					},
 					"columnDelimiter": ",",
